@@ -39,13 +39,7 @@ def download_website(verbose: bool, p_r: int = 0, url: str = "") -> str:
 
 
 def get_pagestring(verbose: bool, p_code: requests.models.Response) -> None:
-    """get_pages - Extract the page string where the number
-    of the pages can be found.
-
-    :param p_code: Website source code
-    :type p_code: requests.models.Response
-    :return: String containing the page numbers
-    :rtype: str
+    """
     """
     sourcecode = p_code
     for line in sourcecode.iter_lines():
@@ -58,6 +52,15 @@ def get_pagestring(verbose: bool, p_code: requests.models.Response) -> None:
         if len(v_pagestring) > 2:
             print(v_pagestring) if verbose else None
             return v_pagestring
+
+
+def extract_pages(verbose: bool, p_code: requests.models.Response) -> list:
+    """
+    """
+    sourcecode = p_code
+    sourcecode = re.findall(r"value=(\d+)", sourcecode)
+    print(sourcecode) if verbose else None
+    return sourcecode
 
 
 def main():
@@ -85,8 +88,8 @@ def main():
     # finallist = []
 
     website_first_load = download_website(verbose, 0, url)
-
     pagestring = get_pagestring(verbose, website_first_load)
+    pagelist = extract_pages(verbose, pagestring)
 
 
 if __name__ == "__main__":
