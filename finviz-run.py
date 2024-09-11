@@ -5,6 +5,7 @@
 import argparse
 import requests
 import re
+from datetime import datetime
 from sys import exit
 
 
@@ -100,11 +101,24 @@ def main():
     url: str = args.url
     verbose: bool = args.verbose
 
-    # finallist = []
+    finallist = []
 
     website_first_load = download_website(verbose, 0, url)
     pagestring = get_pagestring(verbose, website_first_load)
     pagelist = extract_pages(verbose, pagestring)
+    for page in pagelist:
+        website_iteration = download_website(verbose, int(page), url)
+        stocklist = get_stocks(verbose, website_iteration)
+        for stock in stocklist:
+            finallist.append(stock)
+    print(finallist)
+    print(f"{len(finallist)} have been found") if verbose else None
+    
+    finallist = ",".join(finallist)
+    with open(
+        f"./output-data/stocks-{datetime.now()}.txt", "wt", encoding="utf-8"
+    ) as file:
+        file.write(finallist)
 
 
 if __name__ == "__main__":
