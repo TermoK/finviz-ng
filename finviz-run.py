@@ -63,6 +63,21 @@ def extract_pages(verbose: bool, p_code: requests.models.Response) -> list:
     return sourcecode
 
 
+def get_stocks(verbose: bool, p_code: requests.models.Response) -> list:
+    """
+    """
+    sourcecode = p_code
+    l_list = []
+    for line in sourcecode.iter_lines():
+        strline = line.decode("utf-8")
+        v_stock = re.findall(r"[A-Z]*\|[0-9]*\.[0-9]*\|[0-9]*", strline)
+        if len(v_stock) == 0:
+            continue
+        l_list.append(v_stock[0].split("|")[0])
+    print(l_list) if verbose else None
+    return l_list
+
+
 def main():
     """Main function."""
 
