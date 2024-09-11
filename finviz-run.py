@@ -8,7 +8,7 @@ import re
 from sys import exit
 
 
-def download_website(verbosity: bool, p_r: int = 0, url: str = "") -> str:
+def download_website(verbose: bool, p_r: int = 0, url: str = "") -> str:
     _response = ""
     _headers = {
         "user-agent": (
@@ -25,7 +25,7 @@ def download_website(verbosity: bool, p_r: int = 0, url: str = "") -> str:
             headers=_headers,
             timeout=10
         )
-        print(_response) if verbosity else None
+        print(_response) if verbose else None
         return _response
     elif p_r > 0:
         _url = f"{url} + &r={p_r}"
@@ -38,7 +38,7 @@ def download_website(verbosity: bool, p_r: int = 0, url: str = "") -> str:
         return _response
 
 
-def get_pagestring(verbosity: bool, p_code: requests.models.Response) -> None:
+def get_pagestring(verbose: bool, p_code: requests.models.Response) -> None:
     """get_pages - Extract the page string where the number
     of the pages can be found.
 
@@ -56,7 +56,7 @@ def get_pagestring(verbosity: bool, p_code: requests.models.Response) -> None:
             )
         )
         if len(v_pagestring) > 2:
-            print(v_pagestring) if verbosity else None
+            print(v_pagestring) if verbose else None
             return v_pagestring
 
 
@@ -72,21 +72,21 @@ def main():
     )
     parser.add_argument(
         "-v",
-        "--verbosity",
+        "--verbose",
         action="store_true",
-        help="Enable verbosity.",
+        help="Enable verbose.",
         default=False
     )
     args = parser.parse_args()
 
     url: str = args.url
-    verbosity: bool = args.verbosity
+    verbose: bool = args.verbose
 
     # finallist = []
 
-    website_first_load = download_website(verbosity, 0, url)
+    website_first_load = download_website(verbose, 0, url)
 
-    pagestring = get_pagestring(verbosity, website_first_load)
+    pagestring = get_pagestring(verbose, website_first_load)
 
 
 if __name__ == "__main__":
