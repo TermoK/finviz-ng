@@ -9,8 +9,7 @@ fmt:
 	@echo "###"
 	@echo "----------------"
 	@echo "Starting  format"
-	black finviz_earnings_next_week.py --line-length 79
-	black finviz_horizontal_pattern.py --line-length 79
+	black finviz_run.py --line-length 79
 	@echo "Completed format"
 	@echo "###"
 	@echo ""
@@ -20,8 +19,7 @@ lint:
 	@echo "###"
 	@echo "----------------"
 	@echo "Starting  lint with pylint"
-	pylint finviz_earnings_next_week.py --disable=R1710
-	pylint finviz_horizontal_pattern.py --disable=R1710
+	pylint finviz_run.py --disable=W0106
 	@echo "Completed with pylint"
 	@echo "###"
 	@echo ""
@@ -31,8 +29,7 @@ flake:
 	@echo "###"
 	@echo "----------------"
 	@echo "Starting  lint with flake8"
-	flake8 finviz_earnings_next_week.py
-	flake8 finviz_horizontal_pattern.py
+	flake8 finviz_run.py
 	@echo "Completed with flake8"
 	@echo "###"
 	@echo ""
